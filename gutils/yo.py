@@ -12,6 +12,15 @@ import logging
 L = logging.getLogger(__name__)
 
 
+def count_profiles(df: pd.DataFrame):
+    """ Count the number of profiles in a DataFrame
+
+    Assumes that the DataFrame has a 'profile' column.
+    """
+    uniques = df.profile.unique()
+    return len(uniques[~np.isnan(uniques)])
+
+
 def calculate_delta_depth(interp_data):
     """ Figure out when the interpolated Z data turns a corner
     """
@@ -24,7 +33,7 @@ def calculate_delta_depth(interp_data):
     return delta_depth
 
 
-def assign_profiles(df, tsint=1):
+def assign_profiles(df: pd.DataFrame, tsint=1):
     profile_df = df.copy()
     profile_df['profile'] = np.nan  # Fill profile with nans
     tmp_df = df.copy()

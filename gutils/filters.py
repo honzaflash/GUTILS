@@ -3,7 +3,7 @@
 import os
 import pandas as pd
 
-from gutils.yo import assign_profiles
+from gutils.yo import assign_profiles, count_profiles
 
 import logging
 L = logging.getLogger(__name__)
@@ -23,9 +23,9 @@ def filter_profiles(dataset, conditional, reindex=True):
 
     Returns the filtered set of profiles
     """
-    before = len(dataset.profile.unique())
+    before = count_profiles(dataset)
     filtered = dataset.groupby('profile').filter(conditional).copy()
-    after = len(filtered.profile.unique())
+    after = count_profiles(filtered)
     # Re-index the profiles
     if reindex is True:
         f, _ = pd.factorize(filtered.profile)
@@ -136,7 +136,7 @@ def process_dataset(file,
             return None, None, None
 
         # Filter data
-        original_profiles = len(profiles.profile.unique())
+        original_profiles = count_profiles(profiles)
         filtered, rm_depth,    did_depth    = filter_profile_depth(profiles, below=filter_z, reindex=False)
         filtered, rm_points,   did_points   = filter_profile_number_of_points(filtered, points_condition=filter_points, reindex=False)
         filtered, rm_time,     did_time     = filter_profile_timeperiod(filtered, timespan_condition=filter_time, reindex=False)
