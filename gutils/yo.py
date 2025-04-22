@@ -74,9 +74,6 @@ def assign_profiles(df: pd.DataFrame, tsint=1):
 
     # Find where the depth indexes (-1 and 1) flip
     inflections = np.where(np.diff(delta_depth) != 0)[0]
-    # Do we have any profiles?
-    if inflections.size < 1:
-        return profile_df
 
     # Prepend a zero at the beginning start the series of profiles
     p_inds = np.insert(inflections, 0, 0)
