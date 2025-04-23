@@ -9,13 +9,27 @@ import logging
 L = logging.getLogger(__name__)
 
 
-def default_filter(dataset):
-    dataset, rm_depth,    _ = filter_profile_depth(dataset, reindex=False)
-    dataset, rm_points,   _ = filter_profile_number_of_points(dataset, reindex=False)
-    dataset, rm_time,     _ = filter_profile_timeperiod(dataset, reindex=False)
-    dataset, rm_distance, _ = filter_profile_distance(dataset, reindex=True)
+def default_filter(dataset, filter_z=None, filter_points=None, filter_time=None, filter_distance=None):
+    """Applies profile filters to a dataset
+
+    Filters based on:
+    - depth
+    - number of points
+    - time period
+    - distance
+    """
+    dataset, rm_depth,    did_depth    = filter_profile_depth(dataset, below=filter_z, reindex=False)
+    dataset, rm_points,   did_points   = filter_profile_number_of_points(dataset, points_condition=filter_points, reindex=False)
+    dataset, rm_time,     did_time     = filter_profile_timeperiod(dataset, timespan_condition=filter_time, reindex=False)
+    dataset, rm_distance, did_distance = filter_profile_distance(dataset, distance_condition=filter_distance, reindex=True)
     total_filtered = rm_depth + rm_points + rm_time + rm_distance
-    return dataset, total_filtered
+    return dataset, {
+        'total_removed': total_filtered,
+        'depth': { 'removed': rm_depth, 'filter_val': did_depth },
+        'points': { 'removed': rm_points, 'filter_val': did_points },
+        'time': { 'removed': rm_time, 'filter_val': did_time },
+        'distance': { 'removed': rm_distance, 'filter_val': did_distance },
+    }
 
 
 def filter_profiles(dataset, conditional, reindex=True):
@@ -136,19 +150,13 @@ def process_dataset(file,
             return None, None, None
 
         # Filter data
-        original_profiles = count_profiles(profiles)
-        filtered, rm_depth,    did_depth    = filter_profile_depth(profiles, below=filter_z, reindex=False)
-        filtered, rm_points,   did_points   = filter_profile_number_of_points(filtered, points_condition=filter_points, reindex=False)
-        filtered, rm_time,     did_time     = filter_profile_timeperiod(filtered, timespan_condition=filter_time, reindex=False)
-        filtered, rm_distance, did_distance = filter_profile_distance(filtered, distance_condition=filter_distance, reindex=True)
-        total_filtered = rm_depth + rm_points + rm_time + rm_distance
+        original_count = count_profiles(profiles)
+        filtered, stats = default_filter(profiles, filter_z, filter_points, filter_time, filter_distance)
         L.info(
-            (
-                'Filtered {}/{} profiles from {}'.format(total_filtered, original_profiles, os.path.basename(file)),
-                'Depth ({}m): {}'.format(did_depth, rm_depth),
-                'Points ({}): {}'.format(did_points, rm_points),
-                'Time ({}s): {}'.format(did_time, rm_time),
-                'Distance ({}m): {}'.format(did_distance, rm_distance),
+            f'Filtered {stats["total_removed"]}/{original_count} profiles from {os.path.basename(file)} - '
+            + ', '.join(
+                f'{variable.capitalize()} ({stats[variable]["filter_val"]}{unit}): {stats[variable]["removed"]}'
+                for variable, unit in [('depth', 'm'), ('points', ''), ('time', 's'), ('distance', 'm')]
             )
         )
 
