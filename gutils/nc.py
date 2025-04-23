@@ -482,6 +482,12 @@ def create_arg_parser():
         type=float
     )
     parser.add_argument(
+        '--require_inflection',
+        help="Ignore ascii files that with no inflection point on the z axis",
+        default=None,
+        type=bool
+    )
+    parser.add_argument(
         "-za",
         "--z_axis_method",
         help="1 == Calculate depth from pressure, 2 == Use raw depth values",

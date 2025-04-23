@@ -33,13 +33,15 @@ def calculate_delta_depth(interp_data):
     return delta_depth
 
 
-def assign_profiles(df: pd.DataFrame, tsint=1):
+def assign_profiles(df: pd.DataFrame, tsint=1, require_inflection=True):
     profile_df = df.copy()
     profile_df['profile'] = np.nan  # Fill profile with nans
     tmp_df = df.copy()
 
     if tsint is None:
         tsint = 1
+    if require_inflection is None:
+        require_inflection = True
 
     # Make 't' epochs and not a DateTimeIndex
     tmp_df['t'] = masked_epoch(tmp_df.t)
@@ -74,6 +76,9 @@ def assign_profiles(df: pd.DataFrame, tsint=1):
 
     # Find where the depth indexes (-1 and 1) flip
     inflections = np.where(np.diff(delta_depth) != 0)[0]
+    # Do we have at least one inflection point?
+    if require_inflection and inflections.size < 1:
+        return profile_df
 
     # Prepend a zero at the beginning start the series of profiles
     p_inds = np.insert(inflections, 0, 0)

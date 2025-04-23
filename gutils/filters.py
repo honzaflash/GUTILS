@@ -120,6 +120,7 @@ def process_dataset(file,
                     filter_time=None,
                     filter_distance=None,
                     z_axis_method=1,
+                    require_inflection=True,
                     **extra_kwargs):
 
     # Check filename
@@ -144,7 +145,7 @@ def process_dataset(file,
             return None, None, None
 
         # Find profile breaks
-        profiles = assign_profiles(data, tsint=tsint)
+        profiles = assign_profiles(data, tsint=tsint, require_inflection=require_inflection)
         # Shortcut for empty dataframes
         if profiles is None:
             return None, None, None
