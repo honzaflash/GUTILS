@@ -1,0 +1,22 @@
+dbd_label: DBD_ASC(dinkum_binary_data_ascii)file
+encoding_ver: 2
+num_ascii_tags: 14
+all_sensors: 0
+filename: unit_191-2025-069-2-23
+the8x3_filename: 05940023
+filename_extension: sbd
+filename_label: unit_191-2025-069-2-23-sbd(05940023)
+mission_name: G191_002.MI
+fileopen_time: Thu_Mar_13_08:28:16_2025
+sensors_per_cycle: 30
+num_label_lines: 3
+num_segments: 1
+segment_filename_0: unit_191-2025-069-2-23
+c_wpt_lat c_wpt_lon m_altitude m_ballast_pumped m_battery m_battpos m_coulomb_amphr_total m_depth m_gps_lat m_gps_lon m_heading m_lat m_leakdetect_voltage m_leakdetect_voltage_forward m_lon m_pitch m_present_time m_raw_altitude m_roll m_vacuum m_water_depth m_water_vx m_water_vy sci_bsipar_par sci_flbb_bb_units sci_flbb_chlor_units sci_m_present_time sci_water_cond sci_water_pressure sci_water_temp 
+lat lon m cc volts in amp-hrs m lat lon rad lat volts volts lon rad timestamp m rad inHg m m/s m/s ue/m^2sec nodim ug/l timestamp s/m bar degc 
+8 8 4 4 4 4 4 4 8 8 4 8 4 4 8 4 8 4 4 4 4 4 4 4 4 4 8 4 4 4 
+NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN 1741854412.82562 NaN NaN NaN NaN NaN NaN 0 0 0 1741854412.82562 0 0 0 
+5858.6 -14837.5 62.7961 228.419 15.0521 0.91735 103.43 0 5858.4764 -14846.6422 4.66876 5858.47640025989 2.49557 2.49564 -14846.642200023 0.401426 1741854425.03156 62.7961 0.00174533 8.13628 -1 -0.0982653 -0.0226857 NaN NaN NaN NaN NaN NaN NaN 
+NaN NaN NaN 228.419 15.0317 0.91735 103.435 NaN 5858.4764 -14846.6422 NaN 5858.47640025989 2.5 2.49701 -14846.642200023 NaN 1741854425.03156 NaN NaN 8.68733 -1 NaN NaN NaN NaN NaN NaN NaN NaN NaN 
+NaN NaN NaN 228.419 NaN 0.91735 NaN NaN NaN NaN NaN NaN 2.49997 2.49676 NaN NaN 1741854610.95187 NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN 
+NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN 1741854618.06488 NaN NaN 8.68362 NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN 
